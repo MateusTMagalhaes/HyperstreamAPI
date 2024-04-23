@@ -34,3 +34,4 @@ async def create_upload_file(file: UploadFile):
         return {'data': data}
     else:
         raise HTTPException(status_code=400, detail="Tipo de arquivo inválido")
+    #boot
