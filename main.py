@@ -31,7 +31,24 @@ async def create_upload_file(file: UploadFile):
                 # Raise a new exception with the ID included in the message
                 raise HTTPException(status_code=400, detail=f"Erro na linha de ID {item['ID']}: {str(e)}")
 
-        return {'data': data}
+        # Criar um dicionário para armazenar a estrutura de árvore
+        tree = {"children": []}
+
+        # Função para adicionar um nó à árvore
+        def add_node(parent, node):
+            for child in parent['children']:
+                if child['name'] == node:
+                    return child
+            if node:
+                new_child = {"name": node, "children": []}
+                parent['children'].append(new_child)
+                return new_child
+
+        # Adicionar todos os nós à árvore
+        for _, row in df.iterrows():
+            parent_node = add_node(tree, row['PastaOrigem'])
+            add_node(parent_node, row['PastaDestino'])
+
+        return {'data': tree}
     else:
         raise HTTPException(status_code=400, detail="Tipo de arquivo inválido")
-    #boot
