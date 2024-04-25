@@ -11,6 +11,7 @@ class MyModel(BaseModel):
     PastaDestino: Optional[str]
     PastaBackup: Optional[str]
     
+    # Valida a válidade dos caminhos de diretórios
     @field_validator('PastaOrigem', 'PastaDestino', 'PastaBackup')    
     def valid_directory_name(cls, v):
         if v is None:
