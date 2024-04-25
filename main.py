@@ -5,7 +5,7 @@ import io
 from pydantic import ValidationError
 
 from modelos import MyModel
-import validações, test_data, trees
+import validações, trees
 
 
 app = FastAPI()
