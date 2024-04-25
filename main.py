@@ -46,8 +46,8 @@ async def create_upload_file(file: UploadFile):
 
 
         return {
-            'network': trees.generate_apps_dict(df),
-            'tree': trees.generate_pastas_dict(df)
+            'tree': trees.generate_apps_dict(df),
+            'network': trees.generate_pastas_dict(df)
             }
     else:
         raise HTTPException(status_code=400, detail="Tipo de arquivo inválido")
@@ -55,8 +55,8 @@ async def create_upload_file(file: UploadFile):
 @app.get("/testdata/")
 async def get_test_data():
     return {
-    "network": {
-        "name": "flare",
+    "tree": {
+        "name": "",
         "children": [
             {
                 "name": "Cliente-FATURA-HSJ",
@@ -390,7 +390,7 @@ async def get_test_data():
             }
         ]
     },
-    "tree": {
+    "network": {
         "children": [
             {
                 "name": "E:\\PRODUCAO\\Cliente\\FATURA\\HSJ\\ENTRADA\\",

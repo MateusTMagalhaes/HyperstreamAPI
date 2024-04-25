@@ -2,9 +2,9 @@
 def generate_pastas_dict(df):
             tree = {"children": []}
             for index, row in df.iterrows():
-                pasta_origem = row["PastaOrigem"].strip()
-                pasta_destino = row["PastaDestino"].strip() if row["PastaDestino"] else None
-                pasta_backup = row["PastaBackup"].strip() if row["PastaBackup"] else None
+                pasta_origem = row["PastaOrigem"]
+                pasta_destino = row["PastaDestino"] if row["PastaDestino"] else None
+                pasta_backup = row["PastaBackup"] if row["PastaBackup"] else None
 
                 if not any([pasta_origem, pasta_destino, pasta_backup]):
                     continue 
@@ -25,10 +25,11 @@ def generate_pastas_dict(df):
             return tree
 
 def generate_apps_dict(df):
-  tree = {"name": "flare", "children": []}
+  tree = {"name": "", "children": []}
 
   def is_origin(pasta_origem, df):
-    if df['PastaDestino'].isin([pasta_origem]).any() or df['PastaBackup'].isin([pasta_origem]).any():
+    if (df['PastaDestino'].str.lower().isin([pasta_origem.lower()]).any() 
+    or df['PastaBackup'].str.lower().isin([pasta_origem.lower()]).any()):
         print(False)
         return False
     print(True)
@@ -43,7 +44,10 @@ def generate_apps_dict(df):
       pasta_destino_ch = row["PastaDestino"] if row["PastaDestino"] else None
       pasta_backup_ch = row["PastaBackup"] if row["PastaBackup"] else None
 
-      if pasta_origem == pasta_origem_ch:
+      if (pasta_origem 
+          and pasta_origem_ch 
+          and pasta_origem.lower() == pasta_origem_ch.lower()):
+
         # Adiciona o children
         if 'children' in current_dict:
           current_dict['children'].append({'name': nome_ch})
