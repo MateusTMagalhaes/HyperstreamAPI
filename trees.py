@@ -30,9 +30,7 @@ def generate_apps_dict(df):
   def is_origin(pasta_origem, df):
     if (df['PastaDestino'].str.lower().isin([pasta_origem.lower()]).any() 
     or df['PastaBackup'].str.lower().isin([pasta_origem.lower()]).any()):
-        print(False)
         return False
-    print(True)
     return True
 
 
