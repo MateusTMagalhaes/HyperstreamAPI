@@ -68,9 +68,11 @@ def generate_apps_dict(df):
     pasta_backup = row["PastaBackup"] if row["PastaBackup"] else None
 
     if is_origin(pasta_origem, df):
+      
       # Adiciona o children
-
       tree['children'].append({'name': nome})
+      if 'children' not in tree["children"][-1]:
+         tree["children"][-1]['children'] = []
       tree["children"][-1]['isBackup'] = False
 
       # Começa o depth
