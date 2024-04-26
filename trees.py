@@ -48,7 +48,7 @@ def generate_apps_dict(df):
           and pasta_origem_ch 
           and pasta_origem.lower() == pasta_origem_ch.lower()):
 
-        # Adiciona o children
+        # Adiciona children
         if 'children' in current_dict:
           current_dict['children'].append({'name': nome_ch})
         else:
@@ -56,6 +56,12 @@ def generate_apps_dict(df):
         current_dict["children"][-1]['isBackup'] = isBackup
         has_children(pasta_destino_ch, df, current_dict['children'][-1], False)
         has_children(pasta_backup_ch, df, current_dict['children'][-1], True)
+      else:
+         if 'children' not in current_dict:
+            current_dict['children'] = []
+      
+
+      
 
   for _, row in df.iterrows():
     nome = row["Nome"]
