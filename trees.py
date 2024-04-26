@@ -1,28 +1,30 @@
 # Função para gerar visualização de pastas
 def generate_pastas_dict(df):
-            tree = {"children": []}
-            for index, row in df.iterrows():
-                pasta_origem = row["PastaOrigem"]
-                pasta_destino = row["PastaDestino"] if row["PastaDestino"] else None
-                pasta_backup = row["PastaBackup"] if row["PastaBackup"] else None
+  tree = {"children": []}
+  for index, row in df.iterrows():
+    pasta_origem = row["PastaOrigem"]
+    pasta_destino = row["PastaDestino"] if row["PastaDestino"] else None
+    pasta_backup = row["PastaBackup"] if row["PastaBackup"] else None
 
-                if not any([pasta_origem, pasta_destino, pasta_backup]):
-                    continue 
+    if not any([pasta_origem, pasta_destino, pasta_backup]):
+        continue 
 
-                node_origem = {"name": pasta_origem}
+    node_origem = {"name": pasta_origem, "children": []}  # Initialize with empty children array
 
-                if pasta_destino:
-                    node_destino = {"name": pasta_destino}
-                    node_origem["children"] = [node_destino]
+    if pasta_destino:
+        node_destino = {"name": pasta_destino}
+        node_origem["children"].append(node_destino)
 
-                if pasta_backup:
-                    node_backup = {"name": pasta_backup}
-                    if "children" not in node_origem:
-                        node_origem["children"] = []
-                    node_origem["children"].append(node_backup)
+    if pasta_backup:
+        node_backup = {"name": pasta_backup}
+        node_origem["children"].append(node_backup)
 
-                tree["children"].append(node_origem)
-            return tree
+    # If no children were added, ensure an empty children array is present
+    if not node_origem["children"]:
+        node_origem["children"] = []
+
+    tree["children"].append(node_origem)
+  return tree
 
 def generate_apps_dict(df):
   tree = {"name": "", "children": []}
